@@ -17,9 +17,13 @@ const server = http.createServer(app);
 
 app.use(express.json());
 app.use(cors({
-  origin: '*',
+  origin: function(origin, callback) {
+    // Allow all origins in production
+    callback(null, true);
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
 
 app.get('/', (req, res) => {
